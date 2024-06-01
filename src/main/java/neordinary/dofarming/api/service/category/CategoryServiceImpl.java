@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
             if (userCategory != null) {
                 isActive = userCategory.getIsActive();
                 if (totalWholePoints > 0) {
-                    percentage = (double) userCategory.getWhole_point() / totalWholePoints * 100;
+                    percentage = Math.round(((double) userCategory.getWhole_point() / totalWholePoints * 100) * 10) / 10.0;
                 }
             }
             CategoryDto categoryWithIsActiveDto = CategoryDto.builder()
