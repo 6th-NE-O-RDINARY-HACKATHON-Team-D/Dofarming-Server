@@ -1,0 +1,136 @@
+package neordinary.dofarming.utils.jwt;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.common.exceptions.BaseException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import static neordinary.dofarming.common.code.status.ErrorStatus.INVALID_JWT;
+
+
+@Service
+@Slf4j
+public class JwtProvider {
+  public final static String HEADER_AUTHORIZATION = "Authorization";
+  public final static String TOKEN_PREFIX = "Bearer ";
+
+  @Value("${jwt.secret_key}")
+  private String secretKey;
+  @Value("${jwt.expiration}")
+  private Long accessExpiration;
+  @Value("${jwt.refresh-token.expiration}")
+  private Long refreshExpiration;
+  @Value("${jwt.issuer}")
+  private String issuer;
+
+  //JWT 토큰에서 subject를 추출하여 사용자 이름을 반환
+  public String extractUsername(String token) {
+    try {
+      return extractClaim(token, Claims::getSubject);
+    } catch (io.jsonwebtoken.ExpiredJwtException | io.jsonwebtoken.MalformedJwtException | io.jsonwebtoken.security.SecurityException e) {
+      log.error("JWT 토큰이 유효하지 않습니다.");
+      throw new BaseException(INVALID_JWT);
+    }
+  }
+
+  //토큰에서 특정 클레임을 추출
+  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    final Claims claims = extractAllClaims(token);
+    return claimsResolver.apply(claims);
+  }
+
+  //사용자 정보를 바탕으로 JWT 토큰을 생성
+  public String generateToken(UserDetails userDetails) {
+    return generateToken(new HashMap<>(), userDetails);
+  }
+
+  public String generateToken(
+          Map<String, Object> extraClaims,
+          UserDetails userDetails
+  ) {
+    return buildToken(extraClaims, userDetails, accessExpiration);
+  }
+
+  //사용자 정보를 바탕으로 리프레시 토큰을 생성
+  public String generateRefreshToken(UserDetails userDetails) {
+    return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+  }
+
+  // 주어진 클레임, 사용자 정보, 그리고 만료 시간을 바탕으로 JWT 토큰을 생성
+  private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+    return Jwts
+            .builder()
+            .setClaims(extraClaims)
+            .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+            .setIssuer(issuer)
+            .setSubject(userDetails.getUsername())
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + expiration))
+            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+            .compact();
+  }
+
+
+  //토큰이 유효한지 확인
+  public boolean isTokenValid(String token, UserDetails userDetails) {
+    try {
+      final String username = extractUsername(token);
+      return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    } catch (io.jsonwebtoken.ExpiredJwtException | io.jsonwebtoken.MalformedJwtException | io.jsonwebtoken.security.SecurityException e) {
+      log.error("JWT 토큰이 유효하지 않습니다.");
+      throw new BaseException(INVALID_JWT);
+    }
+  }
+
+  //토큰이 만료되었는지 확인
+  private boolean isTokenExpired(String token) {
+    return extractExpiration(token).before(new Date());
+  }
+
+  //토큰에서 만료 시간을 추출
+  private Date extractExpiration(String token) {
+    return extractClaim(token, Claims::getExpiration);
+  }
+
+  //토큰에서 모든 클레임을 추출
+  private Claims extractAllClaims(String token) {
+    return Jwts
+            .parserBuilder()
+            .setSigningKey(getSignInKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+  }
+
+  //서명 키 반환, 토큰 생성하고 검증할 때 사용
+  private Key getSignInKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    return Keys.hmacShaKeyFor(keyBytes);
+  }
+
+  //토큰 발급 시간
+  public Long getIssuedAt (String token) {
+    Claims claims = getClaims(token);
+    return claims.getIssuedAt().getTime();
+  }
+
+  private Claims getClaims(String token) {
+    return Jwts.parser()
+            .setSigningKey(secretKey)
+            .parseClaimsJws(token)
+            .getBody();
+  }
+}
