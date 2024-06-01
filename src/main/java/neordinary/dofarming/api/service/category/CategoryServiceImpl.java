@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponseDto chooseCategory(Long categoryId) {
 
         Category category = categoryJpaRepository.findById(categoryId).orElseThrow(() -> new CategoryHandler(ErrorStatus.CANNOT_FIND_CATEGORY));
-        if (category.getIsActive() == false) {
+        if (!category.getIsActive()) {
             category.activeCategory();
 
         } else {
