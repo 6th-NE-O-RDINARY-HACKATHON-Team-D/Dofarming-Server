@@ -12,7 +12,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     generate-ddl: false
@@ -53,4 +53,4 @@ spring:
             user-name-attribute: id
 
 server:
-  url: https://dev.swacademy.store
+  url: http://localhost:8080
