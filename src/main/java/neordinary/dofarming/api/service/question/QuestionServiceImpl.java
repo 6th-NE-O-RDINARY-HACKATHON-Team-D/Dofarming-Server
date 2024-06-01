@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import neordinary.dofarming.api.controller.question.dto.request.CategoryRequestDto;
 import neordinary.dofarming.api.controller.question.dto.request.QuestionRequestDto;
 import neordinary.dofarming.api.controller.question.dto.response.QuestionResponseDto;
+import neordinary.dofarming.api.controller.question.dto.response.UserCategoryResponseDto;
 import neordinary.dofarming.common.code.status.ErrorStatus;
 import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.common.exceptions.handler.QuestionHandler;
@@ -82,4 +83,26 @@ public class QuestionServiceImpl implements QuestionService{
 
         return savedQuestions;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserCategoryResponseDto> getCategoryPointsPercentage(User user) {
+        List<UserCategory> userCategories = userCategoryJpaRepository.findByUser(user);
+
+        int totalWholePoints = userCategories.stream()
+                .mapToInt(UserCategory::getWhole_point)
+                .sum();
+
+        return userCategories.stream()
+                .map(userCategory -> {
+                    double percentage = (totalWholePoints == 0) ? 0 : (double) userCategory.getWhole_point() / totalWholePoints * 100;
+                    return new UserCategoryResponseDto(
+                            userCategory.getCategory().getId(),
+                            userCategory.getWhole_point(),
+                            percentage
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
 }

@@ -21,9 +21,11 @@ public enum SuccessStatus implements BaseCode {
 
     // 카테고리 성공
     CATEGORY_UPDATE_OK(HttpStatus.OK, "CATEGORY2000", "카테고리 상태 변경 성공"),
-    GET_CATEGORY_OK(HttpStatus.OK, "CATEGORY2000", "카테고리 리스트 조회 성공"),
+    GET_CATEGORY_OK(HttpStatus.OK, "CATEGORY2001", "카테고리 리스트 조회 성공"),
 
-
+    // 질문 점수 성공
+    SAVE_POINTS_OK(HttpStatus.OK, "QUESTION2000", "질문 별 점수 부여 성공"),
+    GET_POINTS_PERCENT_OK(HttpStatus.OK, "QUESTION2001", "카테고리 별 점수 비율 조회 성공"),
 
     //미션 추천 성공
     MIS_RECOMMEND_OK(HttpStatus.OK, "MISSION2001", "미션 추천 성공"),
