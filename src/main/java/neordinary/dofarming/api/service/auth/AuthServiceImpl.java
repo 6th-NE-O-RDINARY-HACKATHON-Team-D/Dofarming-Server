@@ -47,6 +47,7 @@ public class AuthServiceImpl implements AuthService {
 
                 if (!isRegistered) {
                     User user = AuthConverter.toUser(getKakaoRes);
+                    user.setNickname("회원님");
                     userJpaRepository.save(user);
                 }
                 User user = userJpaRepository.findByUsernameAndState(getKakaoRes.getId(), ACTIVE)

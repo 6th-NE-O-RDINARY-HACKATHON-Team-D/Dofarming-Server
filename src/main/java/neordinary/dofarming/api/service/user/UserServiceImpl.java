@@ -2,6 +2,7 @@ package neordinary.dofarming.api.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.api.controller.user.dto.response.GetUserRes;
 import neordinary.dofarming.api.controller.user.dto.response.PatchUserRes;
 import neordinary.dofarming.domain.user.User;
 import neordinary.dofarming.domain.user.repository.UserJpaRepository;
@@ -19,7 +20,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserJpaRepository userJpaRepository;
     private final S3Provider s3Provider;
-    
+
+    @Override
+    public GetUserRes getMyPage(User user) {
+        return null;
+    }
     @Override
     @Transactional
     public PatchUserRes patchProfile(User user, MultipartFile profile, String nickname) {
