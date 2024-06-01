@@ -34,7 +34,8 @@ public class UserMission extends BaseEntity {
     @JoinColumn(name = "mission_id")
     private Mission mission; // 미션
 
-    public void updateImage(String image) {
+    public void updateImage(String image, Boolean isSuccess) {
         this.image = image;
+        this.isSuccess = isSuccess;
     }
 }

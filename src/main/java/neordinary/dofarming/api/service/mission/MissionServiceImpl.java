@@ -65,6 +65,7 @@ public class MissionServiceImpl implements MissionService {
         UserMission userMission = UserMission.builder()
                 .user(currentUser)
                 .mission(recommendedMission)
+                .isSuccess(false)
                 .build();
         userMissionJpaRepository.save(userMission);
         return recommendedMission;
@@ -98,7 +99,7 @@ public class MissionServiceImpl implements MissionService {
                 .build();
         String s3Url = s3Provider.multipartFileUpload(file, request);
 
-        userMission.updateImage(s3Url);
+        userMission.updateImage(s3Url, true);
 
         UserMission updatedUserMission = userMissionJpaRepository.save(userMission);
 
