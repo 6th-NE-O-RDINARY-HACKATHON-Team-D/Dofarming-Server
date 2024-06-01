@@ -27,7 +27,7 @@ public class UserController {
 
     //추가 정보 입력
     @Operation(summary = "추가 정보 입력 API",description = "추가 정보를 입력합니다.")
-    @PatchMapping("/additional-info")
+    @PatchMapping(value = "/additional-info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<PatchUserRes> additionalInfo(@AuthenticationPrincipal User user,
                                                      @RequestParam("nickname") String nickname,
                                                      @RequestParam(value = "profile", required = false) MultipartFile profile) {

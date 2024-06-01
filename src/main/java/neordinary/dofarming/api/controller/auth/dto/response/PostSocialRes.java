@@ -13,6 +13,8 @@ public class PostSocialRes {
     @NotNull
     private Long id;
 
+    private Boolean isFinished;
+    private Boolean isEvaluated;
     private String accessToken;
     @NotNull
     private String refreshToken;

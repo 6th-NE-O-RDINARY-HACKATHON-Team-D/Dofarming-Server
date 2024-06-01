@@ -35,10 +35,13 @@ public class UserServiceImpl implements UserService {
             user.setProfileImageUrl(profileImageUrl);
         }
         user.setNickname(nickname);
+        user.setIsFinished(true);
         userJpaRepository.save(user);
         return PatchUserRes.builder().
                 nickname(user.getNickname()).
                 profileImageUrl(user.getProfileImageUrl()).
+                isFisished(user.getIsFinished()).
+                isEvaluated(user.getIsEvaluated()).
                 build();
     }
 

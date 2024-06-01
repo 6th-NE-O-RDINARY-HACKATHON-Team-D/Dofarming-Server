@@ -23,6 +23,8 @@ public class AuthConverter {
     public static PostSocialRes toPostSocialRes(User user, String accessToken, String refreshToken){
         return PostSocialRes.builder()
                 .id(user.getId())
+                .isFinished(false)
+                .isEvaluated(false)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
