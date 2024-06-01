@@ -3,7 +3,6 @@ package neordinary.dofarming.domain.category;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
 import lombok.*;
-import neordinary.dofarming.common.BaseEntity;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -12,7 +11,7 @@ import neordinary.dofarming.common.BaseEntity;
 @Getter
 @Builder
 @Entity
-public class Category extends BaseEntity {
+public class Category {
 
     @Id
     @Column(name = "category_id", nullable = false, updatable = false)
@@ -26,4 +25,12 @@ public class Category extends BaseEntity {
 
     @Column(name = "is_active")
     private Boolean isActive; // 활성화 여부
+
+    public void activeCategory() {
+        isActive = true;
+    }
+
+    public void deActiveCategory() {
+        isActive = false;
+    }
 }

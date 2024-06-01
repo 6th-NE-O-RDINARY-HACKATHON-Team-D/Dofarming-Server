@@ -41,6 +41,8 @@ public enum ErrorStatus implements BaseErrorCode {
     FILE_CONVERT(HttpStatus.BAD_REQUEST, "FILE4001", "파일 변환 실패."),
     S3_UPLOAD(HttpStatus.BAD_REQUEST, "S3UPLOAD4001", "S3 파일 업로드 실패."),
 
+    CANNOT_FIND_CATEGORY(HttpStatus.BAD_REQUEST, "CATEGORY4000", "카테고리를 찾을 수 없습니다."),
+
 
     /**
      * 500 :  Database, Server 오류
