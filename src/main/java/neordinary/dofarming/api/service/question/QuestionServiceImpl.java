@@ -94,11 +94,13 @@ public class QuestionServiceImpl implements QuestionService{
 
         return userCategories.stream()
                 .map(userCategory -> {
-                    double percentage = (totalWholePoints == 0) ? 0 : (double) userCategory.getWhole_point() / totalWholePoints * 100;
+                    double percentage = (totalWholePoints == 0) ? 0 : Math.round((double) userCategory.getWhole_point() / totalWholePoints * 1000) / 10.0;
                     return new UserCategoryResponseDto(
                             userCategory.getCategory().getId(),
                             userCategory.getWhole_point(),
-                            percentage
+                            percentage,
+                            userCategory.getIsActive()
+
                     );
                 })
                 .collect(Collectors.toList());

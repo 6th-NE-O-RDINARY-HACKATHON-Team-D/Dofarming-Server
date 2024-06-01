@@ -11,4 +11,5 @@ public class UserCategoryResponseDto {
     private Long categoryId;
     private Integer wholePoint;
     private double percentage;
+    private boolean isActive;
 }

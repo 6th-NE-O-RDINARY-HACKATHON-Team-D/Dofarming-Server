@@ -55,20 +55,29 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional(readOnly = true)
     @Override
     public CategoriesResponseDto getCategories(User user) {
-
         List<CategoryDto> categoryDtoList = new ArrayList<>();
+
+        List<UserCategory> userCategories = userCategoryJpaRepository.findByUser(user);
+        int totalWholePoints = userCategories.stream()
+                .mapToInt(UserCategory::getWhole_point)
+                .sum();
 
         List<Category> categories = categoryJpaRepository.findAll();
         for (Category category : categories) {
             boolean isActive = false;
+            double percentage = 0;
             UserCategory userCategory = userCategoryJpaRepository.findByUserAndCategory(user, category);
             if (userCategory != null) {
                 isActive = userCategory.getIsActive();
+                if (totalWholePoints > 0) {
+                    percentage = Math.round(((double) userCategory.getWhole_point() / totalWholePoints * 100) * 10) / 10.0;
+                }
             }
             CategoryDto categoryWithIsActiveDto = CategoryDto.builder()
                     .categoryId(category.getId())
                     .name(category.getName())
                     .isActive(isActive)
+                    .percentage(percentage)
                     .build();
             categoryDtoList.add(categoryWithIsActiveDto);
         }
