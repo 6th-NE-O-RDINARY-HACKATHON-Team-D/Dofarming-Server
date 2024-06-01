@@ -35,15 +35,14 @@ public class MissionController {
             return BaseResponse.of(MIS_RECOMMEND_OK, recommendMissionRes);
     }
 
-    @PostMapping("/{missionId}")
-    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{missionId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "미션 인증 API", description = "미션 인증 이미지를 업로드합니다.")
     public BaseResponse<UploadMissionImageRes> uploadMissionImage(@AuthenticationPrincipal User user, @PathVariable Long missionId, @RequestParam("file") MultipartFile file) {
         UploadMissionImageRes uploadMissionImageRes = missionService.uploadMissionImage(user, missionId, file);
         return BaseResponse.of(MIS_SUCCESS_OK, uploadMissionImageRes);
     }
 
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "날짜별 미션 조회 API", description = "날짜별 미션을 조회합니다. 날짜는 yyyy-mm-dd 형식으로 넘겨주세요.")
     public BaseResponse<GetMissionByDateRes> getMissionByDate(@AuthenticationPrincipal User user, @RequestParam String date) {
         GetMissionByDateRes getMissionByDateRes = missionService.getMissionByDate(user, date);
