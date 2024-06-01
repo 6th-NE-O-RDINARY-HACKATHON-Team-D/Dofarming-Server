@@ -2,6 +2,7 @@ package neordinary.dofarming.api.service.mission;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.api.controller.mission.dto.GetMissionByDateRes;
 import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
 import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.domain.category.Category;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static neordinary.dofarming.common.code.status.ErrorStatus.*;
@@ -104,6 +107,30 @@ public class MissionServiceImpl implements MissionService {
                 .imageUrl(updatedUserMission.getImage())
                 .updatedAt(updatedUserMission.getUpdatedAt())
                 .build();
+    }
+
+    @Override
+    public GetMissionByDateRes getMissionByDate(User user, String date) {
+        User currentUser = userJpaRepository.findById(user.getId())
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
+        // 문자열을 LocalDate로 변환
+        LocalDateTime localDate = LocalDateTime.parse(date);
+
+        Optional<UserMission> userMissionOptional = userMissionJpaRepository.findByUserAndCreatedAt(currentUser, localDate);
+
+        if (userMissionOptional.isPresent()) {
+            UserMission userMission = userMissionOptional.get();
+
+            return GetMissionByDateRes.builder()
+                    .missionContent(userMission.getMission().getContent())
+                    .isSuccess(userMission.getIsSuccess())
+                    .image(userMission.getImage())
+                    .updatedAt(String.valueOf(userMission.getUpdatedAt()))
+                    .build();
+        } else {
+            return GetMissionByDateRes.builder().build();
+        }
     }
 
 }
