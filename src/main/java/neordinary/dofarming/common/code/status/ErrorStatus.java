@@ -43,6 +43,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     CANNOT_FIND_CATEGORY(HttpStatus.BAD_REQUEST, "CATEGORY4000", "카테고리를 찾을 수 없습니다."),
 
+    QUESTION_NOT_FOUND(HttpStatus.BAD_REQUEST, "QUESTION4000", "질문을 찾을 수 없습니다."),
+
 
     /**
      * 500 :  Database, Server 오류
