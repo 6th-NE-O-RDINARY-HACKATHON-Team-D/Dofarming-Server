@@ -8,7 +8,6 @@ import neordinary.dofarming.api.controller.question.dto.response.QuestionRespons
 import neordinary.dofarming.api.controller.question.dto.response.UserCategoryResponseDto;
 import neordinary.dofarming.common.code.status.ErrorStatus;
 import neordinary.dofarming.common.exceptions.BaseException;
-import neordinary.dofarming.common.exceptions.handler.QuestionHandler;
 import neordinary.dofarming.domain.category.Category;
 import neordinary.dofarming.domain.category.repository.CategoryJpaRepository;
 import neordinary.dofarming.domain.mapping.user_category.UserCategory;
