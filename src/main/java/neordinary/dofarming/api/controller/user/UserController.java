@@ -50,4 +50,5 @@ public class UserController {
                                             @RequestParam(value = "profile", required = false) MultipartFile profile) {
         return BaseResponse.of(PROFILES_UPDATE_OK, userService.patchProfile(user, profile, nickname));
     }
+
 }
