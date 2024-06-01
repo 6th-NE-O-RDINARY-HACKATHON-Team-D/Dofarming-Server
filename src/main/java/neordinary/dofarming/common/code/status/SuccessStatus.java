@@ -28,6 +28,7 @@ public enum SuccessStatus implements BaseCode {
     // 질문 점수 성공
     SAVE_POINTS_OK(HttpStatus.OK, "QUESTION2000", "질문 별 점수 부여 성공"),
     GET_POINTS_PERCENT_OK(HttpStatus.OK, "QUESTION2001", "카테고리 별 점수 비율 조회 성공"),
+    DELETE_ALL_QUESTION_POINTS_OK(HttpStatus.OK, "QUESTION2002", "진단 결과 삭제 성공"),
 
     //미션 추천 성공
     MIS_RECOMMEND_OK(HttpStatus.OK, "MISSION2001", "미션 추천 성공"),

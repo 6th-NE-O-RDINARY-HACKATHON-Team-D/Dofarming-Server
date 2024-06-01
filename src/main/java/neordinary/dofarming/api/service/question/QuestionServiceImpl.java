@@ -15,6 +15,7 @@ import neordinary.dofarming.domain.mapping.user_category.repository.UserCategory
 import neordinary.dofarming.domain.question.Question;
 import neordinary.dofarming.domain.question.repository.QuestionJpaRepository;
 import neordinary.dofarming.domain.user.User;
+import neordinary.dofarming.domain.user.repository.UserJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class QuestionServiceImpl implements QuestionService{
     private final QuestionJpaRepository questionJpaRepository;
     private final UserCategoryJpaRepository userCategoryJpaRepository;
     private final CategoryJpaRepository categoryJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
     @Override
     public List<QuestionResponseDto> saveQuestionPoints(User user, QuestionRequestDto questionPoints) {
@@ -106,4 +108,19 @@ public class QuestionServiceImpl implements QuestionService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public String deleteAllQuestionPoints(User user) {
+        List<UserCategory> userCategories = userCategoryJpaRepository.findByUser(user);
+        for (UserCategory userCategory : userCategories) {
+            List<Question> questions = questionJpaRepository.findByUserIdAndCategoryId(user.getId(), userCategory.getCategory().getId());
+            for (Question question : questions) {
+                questionJpaRepository.delete(question);
+            }
+            userCategoryJpaRepository.delete(userCategory);
+        }
+        user.setIsEvaluated(Boolean.FALSE);
+        userJpaRepository.save(user);
+        return "진단 결과 삭제 성공";
+    }
 }

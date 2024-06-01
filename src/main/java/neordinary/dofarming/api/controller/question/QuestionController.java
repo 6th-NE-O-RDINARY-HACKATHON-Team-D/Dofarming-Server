@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static neordinary.dofarming.common.code.status.SuccessStatus.GET_POINTS_PERCENT_OK;
-import static neordinary.dofarming.common.code.status.SuccessStatus.SAVE_POINTS_OK;
+import static neordinary.dofarming.common.code.status.SuccessStatus.*;
 
 @Slf4j
 @Tag(name = "question controller", description = "질문 API")
@@ -40,5 +39,13 @@ public class QuestionController {
     public BaseResponse<List<UserCategoryResponseDto>> getCategoryPointsPercentage(@AuthenticationPrincipal User user) {
         List<UserCategoryResponseDto> categoryPointsPercentage = questionService.getCategoryPointsPercentage(user);
         return BaseResponse.of(GET_POINTS_PERCENT_OK, categoryPointsPercentage);
+    }
+
+    // 진단 결과 다 삭제하는 기능
+    @Operation(summary = "진단 결과 삭제 API",description = "진단 결과를 모두 삭제하는 기능.")
+    @DeleteMapping
+    public BaseResponse<String> deleteAllQuestionPoints(@AuthenticationPrincipal User user) {
+
+        return BaseResponse.of(DELETE_ALL_QUESTION_POINTS_OK, questionService.deleteAllQuestionPoints(user));
     }
 }
