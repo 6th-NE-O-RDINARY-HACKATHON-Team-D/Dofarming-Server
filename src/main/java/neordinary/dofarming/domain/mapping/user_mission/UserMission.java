@@ -33,4 +33,8 @@ public class UserMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission; // 미션
+
+    public void updateImage(String image) {
+        this.image = image;
+    }
 }

@@ -22,7 +22,10 @@ public enum SuccessStatus implements BaseCode {
 
 
     //미션 추천 성공
-    MIS_RECOMMEND_OK(HttpStatus.OK, "MISSION2001", "미션 추천 성공");
+    MIS_RECOMMEND_OK(HttpStatus.OK, "MISSION2001", "미션 추천 성공"),
+    
+    //미션 인증 사진 업로드 성공
+    MIS_SUCCESS_OK(HttpStatus.OK, "MISSION2002", "미션 인증 성공");
 
     private final HttpStatus httpStatus;
     private final String code;

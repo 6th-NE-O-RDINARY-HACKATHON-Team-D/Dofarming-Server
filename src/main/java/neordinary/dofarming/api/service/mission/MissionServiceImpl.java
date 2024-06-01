@@ -2,6 +2,7 @@ package neordinary.dofarming.api.service.mission;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
 import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.domain.category.Category;
 import neordinary.dofarming.domain.mapping.user_category.UserCategory;
@@ -12,10 +13,12 @@ import neordinary.dofarming.domain.mission.Mission;
 import neordinary.dofarming.domain.mission.repository.MissionJpaRepository;
 import neordinary.dofarming.domain.user.User;
 import neordinary.dofarming.domain.user.repository.UserJpaRepository;
+import neordinary.dofarming.utils.s3.S3Provider;
+import neordinary.dofarming.utils.s3.dto.S3UploadRequest;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Random;
@@ -32,6 +35,7 @@ public class MissionServiceImpl implements MissionService {
     private final UserCategoryJpaRepository userCategoryJpaRepository;
     private final MissionJpaRepository missionJpaRepository;
     private final UserMissionJpaRepository userMissionJpaRepository;
+    private final S3Provider s3Provider;
 
     @Override
     public Mission recommendMission(User user) {
@@ -76,4 +80,30 @@ public class MissionServiceImpl implements MissionService {
             }
         }
     }
+
+    @Override
+    public UploadMissionImageRes uploadMissionImage(User user, Long missionId, MultipartFile file) {
+        User currentUser = userJpaRepository.findById(user.getId())
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
+        UserMission userMission = userMissionJpaRepository.findById(missionId)
+                .orElseThrow(() -> new BaseException(CANNOT_FIND_MISSION));
+
+        S3UploadRequest request = S3UploadRequest.builder()
+                .userId(user.getId())
+                .dirName("mission")
+                .build();
+        String s3Url = s3Provider.multipartFileUpload(file, request);
+
+        userMission.updateImage(s3Url);
+
+        UserMission updatedUserMission = userMissionJpaRepository.save(userMission);
+
+        return UploadMissionImageRes.builder()
+                .nickname(user.getNickname())
+                .imageUrl(updatedUserMission.getImage())
+                .updatedAt(updatedUserMission.getUpdatedAt())
+                .build();
+    }
+
 }
