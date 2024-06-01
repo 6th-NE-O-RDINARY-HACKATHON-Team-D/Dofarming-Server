@@ -39,6 +39,8 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4000", "페이지는 0 이상이어야 합니다."),
     INVALID_SIZE_10(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
 
+    CANNOT_FIND_CATEGORY(HttpStatus.BAD_REQUEST, "CATEGORY4000", "카테고리를 찾을 수 없습니다."),
+
 
     /**
      * 500 :  Database, Server 오류
