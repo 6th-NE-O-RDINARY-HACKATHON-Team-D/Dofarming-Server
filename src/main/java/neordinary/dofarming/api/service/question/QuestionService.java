@@ -11,4 +11,6 @@ public interface QuestionService {
     List<QuestionResponseDto> saveQuestionPoints(User user, QuestionRequestDto questionPoints);
 
     List<UserCategoryResponseDto> getCategoryPointsPercentage(User user);
+
+    String deleteAllQuestionPoints(User user);
 }
