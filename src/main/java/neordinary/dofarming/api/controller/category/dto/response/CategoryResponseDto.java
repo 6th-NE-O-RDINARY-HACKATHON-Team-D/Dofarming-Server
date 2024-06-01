@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import neordinary.dofarming.domain.category.Category;
+import neordinary.dofarming.domain.mapping.user_category.UserCategory;
 
 @Getter
 @Builder
@@ -14,15 +14,13 @@ public class CategoryResponseDto {
 
     private Long categoryId;
     private String name;
-    private int wholePoint;
+    private Integer whole_point;
     private boolean isActive;
 
-    public static CategoryResponseDto from(Category category) {
-        return CategoryResponseDto.builder()
-                .categoryId(category.getId())
-                .name(category.getName())
-                .wholePoint(category.getWhole_point())
-                .isActive(category.getIsActive())
-                .build();
+    public CategoryResponseDto(UserCategory userCategory) {
+        categoryId = userCategory.getCategory().getId();
+        name = userCategory.getCategory().getName();
+        whole_point = userCategory.getWhole_point();
+        isActive = userCategory.getIsActive();
     }
 }

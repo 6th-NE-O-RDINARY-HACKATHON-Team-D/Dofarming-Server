@@ -21,16 +21,4 @@ public class Category {
     @Column(nullable = false, length = 10)
     private String name; // 카테고리명
 
-    private Integer whole_point; // 전체 포인트
-
-    @Column(name = "is_active")
-    private Boolean isActive; // 활성화 여부
-
-    public void activeCategory() {
-        isActive = true;
-    }
-
-    public void deActiveCategory() {
-        isActive = false;
-    }
 }
