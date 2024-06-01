@@ -1,7 +1,6 @@
 package neordinary.dofarming.domain.user.repository;
 
 
-import neordinary.dofarming.common.BaseEntity;
 import neordinary.dofarming.common.BaseEntity.State;
 import neordinary.dofarming.domain.user.User;
 import neordinary.dofarming.domain.user.enums.SocialType;
