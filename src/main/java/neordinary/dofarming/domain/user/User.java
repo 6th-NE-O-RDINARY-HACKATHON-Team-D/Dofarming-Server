@@ -30,6 +30,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 20)
     private String username;
 
+    @Column(name = "profile_image_url", length = 255)
+    private String profileImageUrl;
+
     @Column(length = 100)
     private String password;
 
@@ -82,4 +85,11 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
