@@ -12,6 +12,7 @@ import neordinary.dofarming.api.service.mission.MissionService;
 import neordinary.dofarming.common.BaseResponse;
 import neordinary.dofarming.domain.mission.Mission;
 import neordinary.dofarming.domain.user.User;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,7 @@ public class MissionController {
     }
 
     @PostMapping("/{missionId}")
+    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "미션 인증 API", description = "미션 인증 이미지를 업로드합니다.")
     public BaseResponse<UploadMissionImageRes> uploadMissionImage(@AuthenticationPrincipal User user, @PathVariable Long missionId, @RequestParam("file") MultipartFile file) {
         UploadMissionImageRes uploadMissionImageRes = missionService.uploadMissionImage(user, missionId, file);

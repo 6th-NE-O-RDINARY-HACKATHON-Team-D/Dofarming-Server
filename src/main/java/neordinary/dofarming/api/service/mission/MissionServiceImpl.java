@@ -129,13 +129,14 @@ public class MissionServiceImpl implements MissionService {
         User currentUser = userJpaRepository.findById(user.getId())
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
 
-        // 문자열을 LocalDate로 변환
-        LocalDateTime localDate = LocalDateTime.parse(date);
+        // 현재 날짜의 시작과 끝
+        LocalDateTime startOfDay = LocalDateTime.now().with(LocalTime.MIN);
+        LocalDateTime endOfDay = LocalDateTime.now().with(LocalTime.MAX);
 
-        Optional<UserMission> userMissionOptional = userMissionJpaRepository.findByUserAndCreatedAt(currentUser, localDate);
+        List<UserMission> userMissions = userMissionJpaRepository.findByUserAndCreatedAtBetween(currentUser, startOfDay, endOfDay);
 
-        if (userMissionOptional.isPresent()) {
-            UserMission userMission = userMissionOptional.get();
+        if (!userMissions.isEmpty()) {
+            UserMission userMission = userMissions.get(0);
 
             return GetMissionByDateRes.builder()
                     .userMissionId(userMission.getId())
