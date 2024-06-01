@@ -4,8 +4,11 @@ import neordinary.dofarming.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserMissionJpaRepository extends JpaRepository<UserMission, Long> {
     Optional<UserMission> findByUserAndCreatedAt(User user, LocalDateTime localDate);
+
+    List<UserMission> findByUserAndCreatedAtBetween(User user, LocalDateTime startDate, LocalDateTime endDate);
 }

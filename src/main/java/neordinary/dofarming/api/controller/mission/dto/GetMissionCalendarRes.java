@@ -5,16 +5,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class GetMissionByDateRes {
+public class GetMissionCalendarRes {
 
-    private Long userMissionId;
-    private String missionContent;
-    private Boolean isSuccess;
-    private String image;
-    private String updatedAt;
+    // 캘린더 정보(사진, id)
+    private List<CalendarDto> calendar;
+
+    // 오늘 미션 정보
+    private GetMissionByDateRes todayMission;
 }

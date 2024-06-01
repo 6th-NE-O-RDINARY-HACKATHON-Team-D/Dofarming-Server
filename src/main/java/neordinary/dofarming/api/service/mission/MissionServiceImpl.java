@@ -2,7 +2,9 @@ package neordinary.dofarming.api.service.mission;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.api.controller.mission.dto.CalendarDto;
 import neordinary.dofarming.api.controller.mission.dto.GetMissionByDateRes;
+import neordinary.dofarming.api.controller.mission.dto.GetMissionCalendarRes;
 import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
 import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.domain.category.Category;
@@ -21,10 +23,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static neordinary.dofarming.common.code.status.ErrorStatus.*;
 
@@ -124,6 +130,7 @@ public class MissionServiceImpl implements MissionService {
             UserMission userMission = userMissionOptional.get();
 
             return GetMissionByDateRes.builder()
+                    .userMissionId(userMission.getId())
                     .missionContent(userMission.getMission().getContent())
                     .isSuccess(userMission.getIsSuccess())
                     .image(userMission.getImage())
@@ -132,6 +139,37 @@ public class MissionServiceImpl implements MissionService {
         } else {
             return GetMissionByDateRes.builder().build();
         }
+    }
+
+    @Override
+    public GetMissionCalendarRes getMissionCalendar(User user) {
+        // 오늘 미션 조회
+        LocalDate now = LocalDate.now();
+        GetMissionByDateRes todayMission = getMissionByDate(user, now.toString());
+
+        // 임의로 날짜 지정(2024-05-30)
+//        LocalDate now = LocalDate.of(2024, Month.MAY, 30);
+
+        // 한 달 캘린더 정보 조회
+        LocalDateTime startDate = now.withDayOfMonth(1).atStartOfDay();
+        LocalDateTime endDate = now.withDayOfMonth(now.lengthOfMonth()).atTime(LocalTime.MAX);
+
+        List<UserMission> userMissionsForMonth = userMissionJpaRepository.findByUserAndCreatedAtBetween(user, startDate, endDate);
+
+        List<CalendarDto> calendarDtoList = userMissionsForMonth.stream().map(userMission -> {
+            LocalDate missionDate = userMission.getCreatedAt().toLocalDate();
+            return CalendarDto.builder()
+                    .month(String.valueOf(missionDate.getMonthValue()))
+                    .date(String.format("%02d-%02d", missionDate.getMonthValue(), missionDate.getDayOfMonth()))
+                    .image(userMission.getImage())
+                    .isSuccess(userMission.getIsSuccess())
+                    .build();
+        }).collect(Collectors.toList());
+
+        return GetMissionCalendarRes.builder()
+                .calendar(calendarDtoList)
+                .todayMission(todayMission)
+                .build();
     }
 
 }
