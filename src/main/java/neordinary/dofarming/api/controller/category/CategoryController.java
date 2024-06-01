@@ -3,6 +3,7 @@ package neordinary.dofarming.api.controller.category;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.api.controller.category.dto.response.CategoriesResponseDto;
 import neordinary.dofarming.api.controller.category.dto.response.CategoryResponseDto;
 import neordinary.dofarming.api.service.category.CategoryService;
 import neordinary.dofarming.common.BaseResponse;
@@ -23,6 +24,12 @@ public class CategoryController {
     BaseResponse<CategoryResponseDto> chooseCategory(@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
         CategoryResponseDto chooseCategories = categoryService.chooseCategory(categoryId, user);
         return BaseResponse.onSuccess(chooseCategories);
+    }
+
+    @GetMapping
+    BaseResponse<CategoriesResponseDto> getCategories(@AuthenticationPrincipal User user) {
+        CategoriesResponseDto categories = categoryService.getCategories(user);
+        return BaseResponse.onSuccess(categories);
     }
 
 }
