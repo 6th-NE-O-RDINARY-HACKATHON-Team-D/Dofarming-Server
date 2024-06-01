@@ -2,10 +2,8 @@ package neordinary.dofarming.api.service.category;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import neordinary.dofarming.api.controller.category.dto.request.CategoryRequestDto;
 import neordinary.dofarming.api.controller.category.dto.response.CategoryResponseDto;
 import neordinary.dofarming.common.code.status.ErrorStatus;
-import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.common.exceptions.handler.CategoryHandler;
 import neordinary.dofarming.domain.category.Category;
 import neordinary.dofarming.domain.category.repository.CategoryJpaRepository;
