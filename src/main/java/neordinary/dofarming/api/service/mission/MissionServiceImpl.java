@@ -2,6 +2,7 @@ package neordinary.dofarming.api.service.mission;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.domain.category.Category;
 import neordinary.dofarming.domain.mapping.user_category.UserCategory;
 import neordinary.dofarming.domain.mapping.user_category.repository.UserCategoryJpaRepository;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Random;
 
+import static neordinary.dofarming.common.code.status.ErrorStatus.*;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -33,14 +36,12 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public Mission recommendMission(User user) {
         User currentUser = userJpaRepository.findById(user.getId())
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         List<UserCategory> userCategories = userCategoryJpaRepository.findByUser(currentUser);
 
         if (userCategories.isEmpty()) {
-            throw new IllegalArgumentException("카테고리를 찾을 수 없습니다.");
+            throw new BaseException(CANNOT_FIND_CATEGORY);
         }
-
         // UserCategory 리스트 중 하나를 랜덤 선택
         Random random = new Random();
         int randomCategoryIndex = random.nextInt(userCategories.size());
@@ -49,21 +50,16 @@ public class MissionServiceImpl implements MissionService {
         List<Mission> missions = missionJpaRepository.findByCategory(category);
 
         if (missions.isEmpty()) {
-            throw new IllegalArgumentException("해당 카테고리에 대한 미션이 없습니다.");
+            throw new BaseException(CANNOT_FIND_MISSION);
         }
-
-        // 미션 리스트 중 하나를 랜덤 선택
         int randomMissionIndex = random.nextInt(missions.size());
         Mission recommendedMission = missions.get(randomMissionIndex);
 
-        // 추천된 미션을 UserMission에 저장
         UserMission userMission = UserMission.builder()
                 .user(currentUser)
                 .mission(recommendedMission)
                 .build();
-
         userMissionJpaRepository.save(userMission);
-
         return recommendedMission;
     }
 

@@ -1,5 +1,6 @@
 package neordinary.dofarming.api.controller.mission;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static neordinary.dofarming.common.code.status.SuccessStatus.MIS_RECOMMEND_OK;
+
 @Slf4j
 @Tag(name = "mission controller", description = "미션 API")
 @RequiredArgsConstructor
@@ -24,13 +27,10 @@ public class MissionController {
     private final MissionService missionService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse<Mission>> recommendMission(@AuthenticationPrincipal User user) {
-        try {
+    @Operation(summary = "미션 추천 API", description = "추천 미션을 조회합니다.")
+    public BaseResponse<Mission> recommendMission(@AuthenticationPrincipal User user) {
             Mission recommendedMission = missionService.recommendMission(user);
-            return ResponseEntity.ok(BaseResponse.onSuccess(recommendedMission));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(BaseResponse.onFailure("INTERNAL_SERVER_ERROR", "Failed to recommend mission", null));
-        }
+            return BaseResponse.of(MIS_RECOMMEND_OK, recommendedMission);
     }
 
 }
