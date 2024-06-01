@@ -16,7 +16,7 @@ public class GetUserRes {
     private String nickname;
     private String profileImageUrl;
     private List<GetPointRes> pointList;
-    private Integer lastWeekMissionSuccessRate;
-    private Integer thisWeekMissionSuccessRate;
+    private Double lastWeekMissionSuccessRate;
+    private Double thisWeekMissionSuccessRate;
 
 }

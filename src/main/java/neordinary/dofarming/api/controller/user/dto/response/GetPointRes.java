@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class GetPointRes {
     private Long categoryId;
     private Integer wholePoint;
-    private Boolean isActive;
+    private double percentage;
+    private Boolean isAchieve;
 }
