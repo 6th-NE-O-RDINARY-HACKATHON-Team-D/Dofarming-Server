@@ -28,7 +28,7 @@
 |Project 빌드 관리 도구|Gradle|
 |Java version|java 17|
 |패키지 구조|도메인 패키지 구조|
-|API 테스트|PostMan, Swagger(https://dev.swacademy.store/swagger-ui/index.html#/)|
+|API 테스트|PostMan, Swagger(https://dev.gridgetest.shop/swagger-ui/index.html#/user%20controller)|
 
 ## 🔧 시스템 아키텍처
 <img width="612" alt="아키텍처" src="https://github.com/6th-NE-O-RDINARY-HACKATHON-Team-D/Dofarming-Server/assets/126947828/3ac71430-44fd-4de9-a440-c5db0f73cb81">
