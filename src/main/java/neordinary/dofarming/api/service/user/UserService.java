@@ -9,4 +9,6 @@ public interface UserService {
     PatchUserRes patchProfile(User user, MultipartFile profile, String nickname);
 
     GetUserRes getMyPage(User user);
+
+    PatchUserRes additionalInfo(User user, MultipartFile profile, String nickname);
 }

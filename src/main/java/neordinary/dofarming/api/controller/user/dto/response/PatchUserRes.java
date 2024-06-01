@@ -13,4 +13,6 @@ public class PatchUserRes {
 
         private String nickname;
         private String profileImageUrl;
+        private Boolean isFisished;
+        private Boolean isEvaluated;
 }

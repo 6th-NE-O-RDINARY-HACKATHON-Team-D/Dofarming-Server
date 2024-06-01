@@ -28,6 +28,24 @@ public class UserServiceImpl implements UserService {
     private final S3Provider s3Provider;
 
     @Override
+    @Transactional
+    public PatchUserRes additionalInfo(User user, MultipartFile profile, String nickname) {
+        if(profile != null) {
+            String profileImageUrl = s3Provider.multipartFileUpload(profile, S3UploadRequest.builder().userId(user.getId()).dirName("profile").build());
+            user.setProfileImageUrl(profileImageUrl);
+        }
+        user.setNickname(nickname);
+        user.setIsFinished(true);
+        userJpaRepository.save(user);
+        return PatchUserRes.builder().
+                nickname(user.getNickname()).
+                profileImageUrl(user.getProfileImageUrl()).
+                isFisished(user.getIsFinished()).
+                isEvaluated(user.getIsEvaluated()).
+                build();
+    }
+
+    @Override
     public GetUserRes getMyPage(User user) {
         List<UserCategory> userCategories = userCategoryJpaRepository.findByUser(user);
         List<GetPointRes> getPointRes = userCategories.stream()

@@ -79,7 +79,7 @@ public class QuestionServiceImpl implements QuestionService{
                     .build();
             userCategoryJpaRepository.save(userCategory);
         }
-
+        user.setIsEvaluated(true);
         return savedQuestions;
     }
 

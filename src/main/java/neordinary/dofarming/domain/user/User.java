@@ -50,6 +50,8 @@ public class User extends BaseEntity implements UserDetails {
     private Role role;
 
 
+    private Boolean isFinished = false; // 추가 정보 입력 완료 여부
+    private Boolean isEvaluated = false; //평가 완료 여부
 
     @Override
     public String getUsername() {
@@ -91,5 +93,13 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+
+    public void setIsEvaluated(Boolean isEvaluated) {
+        this.isEvaluated = isEvaluated;
     }
 }
