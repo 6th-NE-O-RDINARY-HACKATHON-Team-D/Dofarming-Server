@@ -1,5 +1,6 @@
 package neordinary.dofarming.domain.user;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 import neordinary.dofarming.common.BaseEntity;
@@ -12,6 +13,7 @@ import java.util.Collection;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Tag(name = "User", description = "유저 정보")
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Builder
@@ -39,7 +41,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(length = 20)
     private String nickname;
 
-    private boolean gender;
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
