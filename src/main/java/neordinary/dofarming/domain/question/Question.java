@@ -27,4 +27,7 @@ public class Question extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category; // 카테고리
 
+    public void allocatePoint(Integer point) {
+        this.point = point;
+    }
 }
