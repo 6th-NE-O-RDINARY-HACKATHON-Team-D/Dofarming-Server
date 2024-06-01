@@ -19,6 +19,10 @@ public enum SuccessStatus implements BaseCode {
     //프로필 수정 성공
     PROFILES_UPDATE_OK(HttpStatus.OK, "USER2004", "프로필 수정 성공"),
 
+    // 카테고리 성공
+    CATEGORY_UPDATE_OK(HttpStatus.OK, "CATEGORY2000", "카테고리 상태 변경 성공"),
+    GET_CATEGORY_OK(HttpStatus.OK, "CATEGORY2000", "카테고리 리스트 조회 성공"),
+
 
 
     //미션 추천 성공
