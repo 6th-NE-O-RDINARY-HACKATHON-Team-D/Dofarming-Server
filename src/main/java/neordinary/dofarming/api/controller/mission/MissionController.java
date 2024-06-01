@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import neordinary.dofarming.api.controller.mission.dto.GetMissionByDateRes;
 import neordinary.dofarming.api.controller.mission.dto.GetMissionCalendarRes;
+import neordinary.dofarming.api.controller.mission.dto.RecommendMissionRes;
 import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
 import neordinary.dofarming.api.service.mission.MissionService;
 import neordinary.dofarming.common.BaseResponse;
@@ -27,10 +28,10 @@ public class MissionController {
     private final MissionService missionService;
 
     @PostMapping
-    @Operation(summary = "미션 추천 API", description = "추천 미션을 조회합니다.")
-    public BaseResponse<Mission> recommendMission(@AuthenticationPrincipal User user) {
-            Mission recommendedMission = missionService.recommendMission(user);
-            return BaseResponse.of(MIS_RECOMMEND_OK, recommendedMission);
+    @Operation(summary = "미션 추천 API", description = "미션을 추천합니다.")
+    public BaseResponse<RecommendMissionRes> recommendMission(@AuthenticationPrincipal User user) {
+        RecommendMissionRes recommendMissionRes = missionService.recommendMission(user);
+            return BaseResponse.of(MIS_RECOMMEND_OK, recommendMissionRes);
     }
 
     @PostMapping("/{missionId}")
