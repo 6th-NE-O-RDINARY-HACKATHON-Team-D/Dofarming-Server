@@ -38,6 +38,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4000", "페이지는 0 이상이어야 합니다."),
     INVALID_SIZE_10(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
+    FILE_CONVERT(HttpStatus.BAD_REQUEST, "FILE4001", "파일 변환 실패."),
+    S3_UPLOAD(HttpStatus.BAD_REQUEST, "S3UPLOAD4001", "S3 파일 업로드 실패."),
 
 
     /**
