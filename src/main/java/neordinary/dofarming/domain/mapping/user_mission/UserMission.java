@@ -23,7 +23,8 @@ public class UserMission extends BaseEntity {
 
     private String image;   // 인증 사진
 
-    private Boolean state; // 인증 여부
+    @Column(name = "is_success")
+    private Boolean isSuccess; // 인증 여부
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
