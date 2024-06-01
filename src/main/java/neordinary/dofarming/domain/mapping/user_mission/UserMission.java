@@ -21,6 +21,10 @@ public class UserMission extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String image;   // 인증 사진
+
+    private Boolean state; // 인증 여부
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // 유저

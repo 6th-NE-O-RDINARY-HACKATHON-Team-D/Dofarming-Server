@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface UserCategoryJpaRepository extends JpaRepository<UserCategory, UserCategoryId> {
+
     UserCategory findByUserAndCategory(User user, Category category);
 
     List<UserCategory> findByUser(User user);
