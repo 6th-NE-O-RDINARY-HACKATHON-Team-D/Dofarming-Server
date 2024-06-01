@@ -26,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -47,6 +46,7 @@ public class MissionServiceImpl implements MissionService {
     private final S3Provider s3Provider;
 
     @Override
+    @Transactional
     public Mission recommendMission(User user) {
         User currentUser = userJpaRepository.findById(user.getId())
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
@@ -78,6 +78,7 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
+    @Transactional
     public void recommendMissionForAllUsers() {
         List<User> allUsers = userJpaRepository.findAll();
 
@@ -92,6 +93,7 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
+    @Transactional
     public UploadMissionImageRes uploadMissionImage(User user, Long missionId, MultipartFile file) {
         User currentUser = userJpaRepository.findById(user.getId())
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
