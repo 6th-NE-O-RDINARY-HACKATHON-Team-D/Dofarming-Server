@@ -5,13 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class QuestionRequestDto {
+public class CategoryRequestDto {
 
-    private List<CategoryRequestDto> categories;
+    private Integer point;
+    private Long categoryId;
+    private Long index;
 }

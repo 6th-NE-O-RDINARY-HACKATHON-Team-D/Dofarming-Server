@@ -7,5 +7,5 @@ import neordinary.dofarming.domain.user.User;
 import java.util.List;
 
 public interface QuestionService {
-    List<QuestionResponseDto> saveQuestionPoints(User user, List<QuestionRequestDto> questionPoints);
+    List<QuestionResponseDto> saveQuestionPoints(User user, QuestionRequestDto questionPoints);
 }
