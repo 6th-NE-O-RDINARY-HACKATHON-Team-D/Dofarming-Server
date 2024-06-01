@@ -45,6 +45,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     QUESTION_NOT_FOUND(HttpStatus.BAD_REQUEST, "QUESTION4000", "질문을 찾을 수 없습니다."),
 
+    CANNOT_FIND_MISSION(HttpStatus.BAD_REQUEST, "MISSION4000", "미션을 찾을 수 없습니다."),
+
 
     /**
      * 500 :  Database, Server 오류

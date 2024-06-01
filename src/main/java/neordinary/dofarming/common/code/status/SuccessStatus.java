@@ -17,7 +17,12 @@ public enum SuccessStatus implements BaseCode {
     //마이페이지 조회 성공
     GET_MY_PAGE_OK(HttpStatus.OK, "USER2002", "마이페이지 조회 성공"),
     //프로필 수정 성공
-    PROFILES_UPDATE_OK(HttpStatus.OK, "USER2004", "프로필 수정 성공");
+    PROFILES_UPDATE_OK(HttpStatus.OK, "USER2004", "프로필 수정 성공"),
+
+
+
+    //미션 추천 성공
+    MIS_RECOMMEND_OK(HttpStatus.OK, "MISSION2001", "미션 추천 성공");
 
     private final HttpStatus httpStatus;
     private final String code;
