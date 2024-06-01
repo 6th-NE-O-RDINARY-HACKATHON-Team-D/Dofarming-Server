@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.dofarming.api.controller.mission.dto.GetMissionByDateRes;
 import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
 import neordinary.dofarming.api.service.mission.MissionService;
 import neordinary.dofarming.common.BaseResponse;
@@ -38,5 +39,11 @@ public class MissionController {
         return BaseResponse.of(MIS_SUCCESS_OK, uploadMissionImageRes);
     }
 
+    @GetMapping()
+    @Operation(summary = "날짜별 미션 조회 API", description = "날짜별 미션을 조회합니다. 날짜는 yyyy-mm-dd 형식으로 넘겨주세요.")
+    public BaseResponse<GetMissionByDateRes> getMissionByDate(@AuthenticationPrincipal User user, @RequestParam String date) {
+        GetMissionByDateRes getMissionByDateRes = missionService.getMissionByDate(user, date);
+        return BaseResponse.of(MIS_GET_OK, getMissionByDateRes);
+    }
 
 }
