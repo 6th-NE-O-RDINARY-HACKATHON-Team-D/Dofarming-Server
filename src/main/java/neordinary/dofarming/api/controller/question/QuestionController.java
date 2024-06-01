@@ -25,8 +25,8 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    @PostMapping("/points")
-    public BaseResponse<List<QuestionResponseDto>> saveQuestionPoints(@RequestBody List<QuestionRequestDto> questionPoints,
+    @PostMapping
+    public BaseResponse<List<QuestionResponseDto>> saveQuestionPoints(@RequestBody QuestionRequestDto questionPoints,
                                                                       @AuthenticationPrincipal User user) {
         List<QuestionResponseDto> questions = questionService.saveQuestionPoints(user, questionPoints);
         return BaseResponse.onSuccess(questions);
