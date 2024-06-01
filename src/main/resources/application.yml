@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+  application:
+    name: dofarming
+
+
+jwt:
+  issuer: dofarming@dofarming.com
+  secret_key: ${JWT_SECRET_KEY}
+  expiration: ${ACCESS_TOKEN_EXPIRATION} #86400000
+  refresh-token:
+    expiration: ${REFRESH_TOKEN_EXPIRATION} #604800000
+
