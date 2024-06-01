@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class GetMissionByDateRes {
-
-    private Long userMissionId;
-    private String missionContent;
-    private Boolean isSuccess;
+public class CalendarDto {
+    private String month;
+    private String date;
     private String image;
-    private String updatedAt;
+    private Boolean isSuccess;
 }

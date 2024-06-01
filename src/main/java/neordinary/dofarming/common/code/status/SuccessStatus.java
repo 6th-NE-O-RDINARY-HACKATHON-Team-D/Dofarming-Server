@@ -34,7 +34,9 @@ public enum SuccessStatus implements BaseCode {
     //미션 인증 사진 업로드 성공
     MIS_SUCCESS_OK(HttpStatus.OK, "MISSION2002", "미션 인증 성공"),
     //날짜별 미션 조회 성공
-    MIS_GET_OK(HttpStatus.OK, "MISSION2003", "날짜별 미션 조회 성공");
+    MIS_GET_OK(HttpStatus.OK, "MISSION2003", "날짜별 미션 조회 성공"),
+    //캘린더, 미션 조회 성공
+    MIS_MISSION_GET_OK(HttpStatus.OK, "MISSION2004", "캘린더, 미션 조회 성공");
 
     private final HttpStatus httpStatus;
     private final String code;

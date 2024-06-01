@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import neordinary.dofarming.api.controller.mission.dto.GetMissionByDateRes;
+import neordinary.dofarming.api.controller.mission.dto.GetMissionCalendarRes;
 import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
 import neordinary.dofarming.api.service.mission.MissionService;
 import neordinary.dofarming.common.BaseResponse;
@@ -44,6 +45,13 @@ public class MissionController {
     public BaseResponse<GetMissionByDateRes> getMissionByDate(@AuthenticationPrincipal User user, @RequestParam String date) {
         GetMissionByDateRes getMissionByDateRes = missionService.getMissionByDate(user, date);
         return BaseResponse.of(MIS_GET_OK, getMissionByDateRes);
+    }
+
+    @GetMapping("/calender")
+    @Operation(summary = "미션 홈 화면 조회 API", description = "미션 홈 화면(캘린더, 오늘 미션)을 조회합니다.")
+    public BaseResponse<GetMissionCalendarRes> getMissionByDate(@AuthenticationPrincipal User user) {
+        GetMissionCalendarRes getMissionCalendarRes = missionService.getMissionCalendar(user);
+        return BaseResponse.of(MIS_MISSION_GET_OK, getMissionCalendarRes);
     }
 
 }
