@@ -31,7 +31,7 @@ public class CategoryController {
         return BaseResponse.of(CATEGORY_UPDATE_OK, chooseCategories);
     }
 
-    @Operation(summary = "카테고리 리스트 조회 API",description = "카테고리 이름과 선택 상태 조회 리스트")
+    @Operation(summary = "카테고리 리스트 조회 API + 카테고리 별 점수 비율 API",description = "카테고리 이름과 선택 상태 조회 리스트 와 카테고리 별 점수 비율을 가져오는 기능.")
     @GetMapping
     BaseResponse<CategoriesResponseDto> getCategories(@AuthenticationPrincipal User user) {
         CategoriesResponseDto categories = categoryService.getCategories(user);

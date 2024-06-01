@@ -98,7 +98,9 @@ public class QuestionServiceImpl implements QuestionService{
                     return new UserCategoryResponseDto(
                             userCategory.getCategory().getId(),
                             userCategory.getWhole_point(),
-                            percentage
+                            percentage,
+                            userCategory.getIsActive()
+
                     );
                 })
                 .collect(Collectors.toList());

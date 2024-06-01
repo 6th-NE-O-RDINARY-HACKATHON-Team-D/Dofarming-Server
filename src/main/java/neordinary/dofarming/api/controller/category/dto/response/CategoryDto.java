@@ -10,5 +10,5 @@ public class CategoryDto {
     private Long categoryId;
     private String name;
     private boolean isActive;
-
+    private double percentage;
 }
