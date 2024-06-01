@@ -2,10 +2,7 @@ package neordinary.dofarming.api.service.mission;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import neordinary.dofarming.api.controller.mission.dto.CalendarDto;
-import neordinary.dofarming.api.controller.mission.dto.GetMissionByDateRes;
-import neordinary.dofarming.api.controller.mission.dto.GetMissionCalendarRes;
-import neordinary.dofarming.api.controller.mission.dto.UploadMissionImageRes;
+import neordinary.dofarming.api.controller.mission.dto.*;
 import neordinary.dofarming.common.exceptions.BaseException;
 import neordinary.dofarming.domain.category.Category;
 import neordinary.dofarming.domain.mapping.user_category.UserCategory;
@@ -47,10 +44,12 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     @Transactional
-    public Mission recommendMission(User user) {
+    public RecommendMissionRes recommendMission(User user) {
         User currentUser = userJpaRepository.findById(user.getId())
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        List<UserCategory> userCategories = userCategoryJpaRepository.findByUser(currentUser);
+
+        // 유저와 isActive가 true인 카테고리 조회
+        List<UserCategory> userCategories = userCategoryJpaRepository.findByUserAndIsActive(currentUser, true);
 
         if (userCategories.isEmpty()) {
             throw new BaseException(CANNOT_FIND_CATEGORY);
@@ -74,7 +73,14 @@ public class MissionServiceImpl implements MissionService {
                 .isSuccess(false)
                 .build();
         userMissionJpaRepository.save(userMission);
-        return recommendedMission;
+
+        return RecommendMissionRes.builder()
+                .nickname(currentUser.getNickname())
+                .userMissionId(userMission.getId())
+                .isSuccess(userMission.getIsSuccess())
+                .missionContent(userMission.getMission().getContent())
+                .createdAt(userMission.getCreatedAt())
+                .build();
     }
 
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
@@ -84,8 +90,8 @@ public class MissionServiceImpl implements MissionService {
 
         for (User user : allUsers) {
             try {
-                Mission recommendedMission = recommendMission(user);
-                log.info("Recommended mission for user {}: {}", user.getId(), recommendedMission.getContent());
+                RecommendMissionRes recommendedMission = recommendMission(user);
+                log.info("Recommended mission for user {}: {}", user.getId(), recommendedMission.getMissionContent());
             } catch (Exception e) {
                 log.error("Failed to recommend mission for user {}: {}", user.getId(), e.getMessage());
             }

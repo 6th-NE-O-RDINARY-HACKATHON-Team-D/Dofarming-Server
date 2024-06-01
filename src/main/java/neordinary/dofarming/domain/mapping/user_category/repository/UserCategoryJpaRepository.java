@@ -13,4 +13,6 @@ public interface UserCategoryJpaRepository extends JpaRepository<UserCategory, U
     UserCategory findByUserAndCategory(User user, Category category);
 
     List<UserCategory> findByUser(User user);
+
+    List<UserCategory> findByUserAndIsActive(User currentUser, boolean b);
 }
